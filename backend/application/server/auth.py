@@ -1,6 +1,8 @@
-from flask import request, jsonify, Blueprint
+from flask import request, jsonify, Blueprint, current_app
 from werkzeug.security import generate_password_hash, check_password_hash
+from flask_mail import Message
 from .db_config import get_connection
+from application.__init__ import mail
 
 auth_bp = Blueprint('auth', __name__)
 
@@ -28,15 +30,25 @@ def register():
     )
     conn.commit()
 
+    msg = Message(
+        "Welcome to our app!",
+        recipients=[email]
+    )
+    msg.body = f"Hi {name},\n\nThank you for registering at our app!"
+    mail.send(msg)
+    print(msg)
+    
     cursor.close()
     conn.close()
+    
+    
+    
 
     return jsonify({
         "message": "User registered successfully",
         "success": True,
         "name": name
     }), 201
-
 
 @auth_bp.route('/login', methods=['POST'])
 def login():
