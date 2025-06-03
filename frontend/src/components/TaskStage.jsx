@@ -5,7 +5,7 @@ const TaskStage = ({ color, label }) => {
 
   return (
     <div
-      className={`bg-white/90 flex justify-between items-center px-4 p-2  w-[500px]`}
+      className={`bg-white/90 flex justify-between items-center px-4 p-2  w-[500px] dark:bg-black/50 dark:text-white transition-all duration-300 `}
     >
       <div className="flex justify-start items-center">
         <div className={` ${color}  rounded-full p-2 mr-2`}></div>

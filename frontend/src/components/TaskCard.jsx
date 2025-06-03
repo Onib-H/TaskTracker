@@ -10,7 +10,7 @@ const TaskCard = ({
   subTask,
 }) => {
   return (
-    <div className="w-full h-[300px] bg-white/90 px-5 py-3">
+    <div className="w-full h-[300px] bg-white/90 px-5 py-3 dark:bg-black/50 dark:text-white transition-all duration-300">
       <div className="flex justify-between items-center">
         <div className="flex justify-start items-center">
           {/* fa-solid fa-bars */}

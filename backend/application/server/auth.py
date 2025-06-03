@@ -1,13 +1,16 @@
-from flask import request, jsonify, Blueprint, current_app
+from flask import request, jsonify, Blueprint, render_template
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_mail import Message
 from .db_config import get_connection
 from application.__init__ import mail
+import random
 
-auth_bp = Blueprint('auth', __name__)
+auth_bp = Blueprint('auth', __name__, template_folder='templates')
 
 @auth_bp.route('/register', methods=['POST'])
 def register():
+    
+    otp = random.randint(100000, 999999)
     data = request.get_json()
     email = data.get('email')
     password = data.get('password')
@@ -31,9 +34,10 @@ def register():
     conn.commit()
 
     msg = Message(
-        "Welcome to our app!",
+        "Welcome to TaskTrackr!",
         recipients=[email]
     )
+    msg.html = render_template('otp.html', email=email, otp=otp)
     msg.body = f"Hi {name},\n\nThank you for registering at our app!"
     mail.send(msg)
     print(msg)

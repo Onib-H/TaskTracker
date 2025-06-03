@@ -25,7 +25,7 @@ const Login = () => {
       const data = await res.json();
       alert(data.message);
       if (data.success) {
-        navigate("/dashboard");
+        navigate("/otp");
       }
     } catch (err) {
       alert("Error registering user");

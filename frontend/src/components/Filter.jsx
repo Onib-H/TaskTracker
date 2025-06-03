@@ -22,14 +22,14 @@ const Filter = () => {
   };
 
   return (
-    <div className="flex flex-col gap-4 p-3 bg-white/90 sm:flex-row sm:flex-wrap sm:items-center">
+    <div className="flex flex-col gap-4 p-3  bg-white/90 dark:bg-black/50 dark:text-white sm:flex-row sm:flex-wrap sm:items-center transition-all duration-300">
       <input
         type="text"
         name="title"
         value={filters.title}
         onChange={handleChange}
         placeholder="Search Title"
-        className="border rounded p-2 flex-1 min-w-[150px]"
+        className="border rounded p-2 flex-1 min-w-[150px] placeholder:text-gray-800 dark:placeholder-white"
       />
       <select
         name="priority"

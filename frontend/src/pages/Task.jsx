@@ -20,7 +20,7 @@ const Task = () => {
           <div className="flex flex-col mb-5">
             <div className="flex justify-between items-center mb-4">
               <h1
-                className={`text-2xl dark:text-white text-gray-900
+                className={`text-2xl dark:text-white text-gray-900 transition-all duration-300
               `}
               >
                 Task
@@ -28,7 +28,7 @@ const Task = () => {
               <div className="flex justify-start gap-8">
                 <div className="flex justify-center items-center">
                   <select
-                    className="bg-white/90 pr-5 py-2 pl-4  border-gray-300 focus:outline-none focus:ring focus:ring-blue-200"
+                    className="bg-white/90 dark:bg-black/50 dark:text-white pr-5 py-2 pl-4  border-gray-300 focus:outline-none focus:ring focus:ring-blue-200 transition-all duration-300"
                     defaultValue="board"
                   >
                     <option value="board">
@@ -44,7 +44,7 @@ const Task = () => {
                 </div>
                 <div className="flex justify-center items-center">
                   <select
-                    className="bg-white/90 pr-5 py-2 pl-4 border-gray-300 focus:outline-none focus:ring focus:ring-blue-200"
+                    className="bg-white/90 dark:bg-black/50 dark:text-white pr-5 py-2 pl-4 border-gray-300 focus:outline-none focus:ring focus:ring-blue-200 transition-all duration-300"
                     defaultValue="newest"
                   >
                     <option value="newest">Sort by: Newest First</option>
@@ -63,7 +63,7 @@ const Task = () => {
                     </option>
                   </select>
                 </div>
-                <button className="text-white bg-indigo-600 py-2 px-4 rounded-lg cursor-pointer">
+                <button className="text-white bg-indigo-600  py-2 px-4 rounded-lg cursor-pointer">
                   <i className="fa fa-plus pr-2"></i>
                   <span className="text-lg ">Create Task</span>
                 </button>

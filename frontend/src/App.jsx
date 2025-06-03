@@ -10,6 +10,7 @@ import Team from "./pages/Team";
 import { Trash } from "./pages/Trash";
 import Settings from "./pages/Settings";
 import { SidebarProvider } from "./context/sidebarContext";
+import Otp from "./pages/Otp";
 function App() {
   // const [msg, setMsg] = useState("");
 
@@ -24,6 +25,7 @@ function App() {
       <div>
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/otp" element={<Otp />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/task" element={<Task />} />
           <Route path="/completed" element={<Completed />} />
