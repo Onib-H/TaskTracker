@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -7,6 +8,16 @@ const Login = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const { authenticated, setAuthenticated } = useAuth();
+
+  if (authenticated === null) {
+    return null;
+  }
+
+  if (authenticated) {
+    navigate("/dashboard");
+    return null;
+  }
 
   const toggleView = () => {
     setIsRegister(!isRegister);
@@ -19,6 +30,7 @@ const Login = () => {
     try {
       const res = await fetch("/api/register", {
         method: "POST",
+        credentials: "include",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ name, email, password }),
       });
@@ -36,12 +48,14 @@ const Login = () => {
     try {
       const res = await fetch("/api/login", {
         method: "POST",
+        credentials: "include",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
       });
       const data = await res.json();
       alert(data.message);
       if (data.success) {
+        setAuthenticated(true);
         navigate("/dashboard");
       }
     } catch (err) {

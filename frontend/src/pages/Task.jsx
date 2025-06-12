@@ -5,9 +5,25 @@ import { useSidebar } from "../context/sidebarContext";
 import TaskCard from "../components/TaskCard";
 import Filter from "../components/Filter";
 import Legend from "../components/Legend";
+import { useEffect, useState } from "react";
 
 const Task = () => {
   const { collapsed, setCollapsed } = useSidebar();
+  const [tasks, setTasks] = useState([]);
+
+  useEffect(() => {
+    const fetchTasks = async () => {
+      try {
+        const response = await fetch("/api/get-tasks"); // adjust URL if needed
+        const data = await response.json();
+        setTasks(data.tasks);
+      } catch (error) {
+        console.error("Error fetching tasks:", error);
+      }
+    };
+
+    fetchTasks();
+  }, []);
 
   return (
     <div className="flex justify-start">
@@ -73,76 +89,25 @@ const Task = () => {
             <Filter />
           </div>
           <Legend />
-          <div className="flex justify-between items-start ">
-            <div className="space-y-5">
-              <TaskStage color={"bg-red-500"} label={"To Do"} />
+          <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+            {tasks.map((task) => (
               <TaskCard
-                priority={"High"}
-                category={"Design"}
-                createdAt={"12/12/2022"}
-                dueDate={"12/12/2022"}
-                description={"Description"}
-                title={"Task Title"}
-                subTask={["Sub Task 1", "Sub Task 2"]}
+                key={task.id}
+                priority={task.priority}
+                category={task.category}
+                createdAt={task.created_at}
+                dueDate={task.due_date}
+                description={task.description}
+                title={task.title}
+                status={task.status}
               />
-              <TaskCard
-                priority={"High"}
-                category={"Design"}
-                createdAt={"12/12/2022"}
-                dueDate={"12/12/2022"}
-                description={"Description"}
-                title={"Task Title"}
-                subTask={["Sub Task 1", "Sub Task 2"]}
-              />
-              <TaskCard
-                priority={"High"}
-                category={"Design"}
-                createdAt={"12/12/2022"}
-                dueDate={"12/12/2022"}
-                description={"Description"}
-                title={"Task Title"}
-                subTask={["Sub Task 1", "Sub Task 2"]}
-              />
-              <TaskCard
-                priority={"High"}
-                category={"Design"}
-                createdAt={"12/12/2022"}
-                dueDate={"12/12/2022"}
-                description={"Description"}
-                title={"Task Title"}
-                subTask={["Sub Task 1", "Sub Task 2"]}
-              />
-              <TaskCard
-                priority={"High"}
-                category={"Design"}
-                createdAt={"12/12/2022"}
-                dueDate={"12/12/2022"}
-                description={"Description"}
-                title={"Task Title"}
-                subTask={["Sub Task 1", "Sub Task 2"]}
-              />
-              <TaskCard
-                priority={"High"}
-                category={"Design"}
-                createdAt={"12/12/2022"}
-                dueDate={"12/12/2022"}
-                description={"Description"}
-                title={"Task Title"}
-                subTask={["Sub Task 1", "Sub Task 2"]}
-              />
-            </div>
-            <div className="space-y-5">
-              <TaskStage color={"bg-yellow-400"} label={"In Progress"} />
-            </div>
-            <div className="space-y-5">
-              <TaskStage color={"bg-green-500"} label={"Completed"} />
-            </div>
+            ))}
           </div>
-          {/* Board View */}
-          <div></div>
-          {/* List View */}
-          <div></div>
         </div>
+        {/* Board View */}
+        <div></div>
+        {/* List View */}
+        <div></div>
       </div>
     </div>
   );

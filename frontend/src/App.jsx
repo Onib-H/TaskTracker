@@ -11,6 +11,8 @@ import { Trash } from "./pages/Trash";
 import Settings from "./pages/Settings";
 import { SidebarProvider } from "./context/sidebarContext";
 import Otp from "./pages/Otp";
+import { AuthProvider } from "./context/AuthContext";
+import ProtectedRoutes from "./components/ProtectedRoutes";
 function App() {
   // const [msg, setMsg] = useState("");
 
@@ -21,22 +23,78 @@ function App() {
   // }, []);
 
   return (
-    <SidebarProvider>
-      <div>
+    <AuthProvider>
+      <SidebarProvider>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/otp" element={<Otp />} />
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/task" element={<Task />} />
-          <Route path="/completed" element={<Completed />} />
-          <Route path="/inprogress" element={<InProgress />} />
-          <Route path="/todo" element={<ToDo />} />
-          <Route path="/team" element={<Team />} />
-          <Route path="/trash" element={<Trash />} />
-          <Route path="/settings" element={<Settings />} />
+          <Route
+            path="/dashboard"
+            element={
+              <ProtectedRoutes>
+                <Dashboard />
+              </ProtectedRoutes>
+            }
+          />
+          <Route
+            path="/task"
+            element={
+              <ProtectedRoutes>
+                <Task />
+              </ProtectedRoutes>
+            }
+          />
+          <Route
+            path="/completed"
+            element={
+              <ProtectedRoutes>
+                <Completed />
+              </ProtectedRoutes>
+            }
+          />
+          <Route
+            path="/inprogress"
+            element={
+              <ProtectedRoutes>
+                <InProgress />
+              </ProtectedRoutes>
+            }
+          />
+          <Route
+            path="/todo"
+            element={
+              <ProtectedRoutes>
+                <ToDo />
+              </ProtectedRoutes>
+            }
+          />
+          <Route
+            path="/team"
+            element={
+              <ProtectedRoutes>
+                <Team />
+              </ProtectedRoutes>
+            }
+          />
+          <Route
+            path="/trash"
+            element={
+              <ProtectedRoutes>
+                <Trash />
+              </ProtectedRoutes>
+            }
+          />
+          <Route
+            path="/settings"
+            element={
+              <ProtectedRoutes>
+                <Settings />
+              </ProtectedRoutes>
+            }
+          />
         </Routes>
-      </div>
-    </SidebarProvider>
+      </SidebarProvider>
+    </AuthProvider>
   );
 }
 

@@ -22,9 +22,13 @@ def create_app():
     
     
     mail.init_app(app)
-    CORS(app)
+    CORS(app, supports_credentials=True)
     
     from application.server.auth import auth_bp
+    from application.server.task import task_bp
+
+    app.register_blueprint(task_bp)
     app.register_blueprint(auth_bp)
 
     return app
+

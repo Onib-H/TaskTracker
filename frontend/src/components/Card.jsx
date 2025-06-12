@@ -1,26 +1,17 @@
 import { useSidebar } from "../context/sidebarContext";
+
 const Card = ({ color, icon, label, number, details }) => {
-  const { collapsed, setCollapsed } = useSidebar();
+  const { collapsed } = useSidebar();
+
   return (
-    <div
-      className={`${color} ${
-        collapsed ? "w-[380px]" : "w-[360px]"
-      } h-[100px] text-white flex justify-between items-center p-5 rounded`}
-    >
-      <div className="rounded-full bg-white px-5 py-4">
-        {icon && (
-          <i
-            className={`${icon} text-2xl ${color} text-transparent bg-clip-text`}
-          ></i>
-        )}
+    <div className="w-full h-40 bg-gray-50 dark:bg-gray-900 text-black dark:text-white flex flex-col justify-center items-center p-6">
+      <div className="rounded-full bg-gray-50 dark:bg-gray-800 p-3 mb-4">
+        <i className={`${icon} text-2xl ${color}`}></i>
       </div>
-      <div className="w-1/2">
-        <h1 className="text-lg tracking-tight font-bold">{label}</h1>
-        <div>
-          <h2 className="text-xl inline">{number}</h2>
-          <span className="text-sm "> {details}</span>
-        </div>
-      </div>
+      <h2 className={`text-2xl font-bold mb-2 ${color}`}>{number}</h2>
+      <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide text-center">
+        {label}
+      </h3>
     </div>
   );
 };

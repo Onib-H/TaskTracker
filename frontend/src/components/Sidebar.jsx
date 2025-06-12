@@ -24,13 +24,14 @@ const Sidebar = () => {
              ${collapsed ? "hidden " : "block"}`}
             onClick={() => navigate("/dashboard")}
           >
-            Task
+            &lt;Task
             <span
-              className={`dark:text-blue-600 text-indigo-600text-indigo-800
+              className={`dark:text-blue-600 text-indigo-800
                `}
             >
               Trackr
             </span>
+            /&gt;
           </h1>
           <i
             className={`dark:text-gray-300  text-gray-600

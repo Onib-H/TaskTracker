@@ -28,14 +28,14 @@ const Filter = () => {
         name="title"
         value={filters.title}
         onChange={handleChange}
-        placeholder="Search Title"
+        placeholder="Search Title...."
         className="border rounded p-2 flex-1 min-w-[150px] placeholder:text-gray-800 dark:placeholder-white"
       />
       <select
         name="priority"
         value={filters.priority}
         onChange={handleChange}
-        className="border rounded p-2 flex-1 min-w-[120px]"
+        className="border rounded p-2 flex-1 min-w-[120px] bg-white/90 dark:bg-black/50 dark:text-white"
       >
         <option value="">All Priorities</option>
         <option value="High">High</option>
@@ -55,11 +55,24 @@ const Filter = () => {
         name="category"
         value={filters.category}
         onChange={handleChange}
-        className="border rounded p-2 flex-1 min-w-[120px]"
+        className="border rounded p-2 flex-1 min-w-[120px] bg-white/90 dark:bg-black/50 dark:text-white"
       >
         <option value="">All Categories</option>
-        <option value="Work">Work</option>
-        <option value="Personal">Personal</option>
+        <option value="Development">Development</option>
+        <option value="Design">Design</option>
+        <option value="Marketing">Marketing</option>
+        <option value="QA">QA</option>
+        <option value="Documentation">Documentation</option>
+        <option value="Research">Research</option>
+        <option value="Project Management">Project Management</option>
+        <option value="DevOps">DevOps</option>
+        <option value="Customer Support">Customer Support</option>
+        <option value="Bugfix">Bugfix</option>
+        <option value="Meetings">Meetings</option>
+        <option value="Maintenance">Maintenance</option>
+        <option value="Performance">Performance</option>
+        <option value="Testing">Testing</option>
+        <option value="Legal">Legal</option>
         <option value="Other">Other</option>
       </select>
 
