@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useAuth } from "../context/AuthContext"; // <-- add this
 
 const Header = () => {
   const [darkMode, setDarkMode] = useState(() => {
@@ -7,6 +8,7 @@ const Header = () => {
   });
 
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const { role } = useAuth(); // <-- get role
 
   useEffect(() => {
     document.documentElement.classList.add("disable-transition");
@@ -52,13 +54,17 @@ const Header = () => {
       className={`dark:bg-gray-900 bg-white sticky top-0 left-0 h-[75px] shadow-xs w-full flex justify-between items-center px-5 transition-all duration-300`}
     >
       <div className="relative">
-        <i className="dark:text-gray-300 fa fa-search absolute left-3 top-1/2 transform -translate-y-1/2 transition-all duration-300"></i>
-        <input
-          type="text"
-          placeholder="Search..."
-          className="dark:bg-gray-700 dark:text-white bg-gray-200 rounded-full py-2 pl-10 pr-4 w-[400px] focus:outline-none transition-all duration-300"
-        />
+        <div
+          className={`flex items-center justify-center 
+      bg-gradient-to-r from-indigo-500 to-indigo-700 
+      text-white rounded-full px-5 py-2 
+      text-sm font-semibold uppercase 
+      shadow-md tracking-wide`}
+        >
+          {role === "admin" ? "Admin" : "User"}
+        </div>
       </div>
+
       <div className="flex items-center space-x-7 relative">
         <i
           className={`fa fa-${

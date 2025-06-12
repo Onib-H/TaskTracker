@@ -4,13 +4,13 @@ import { useAuth } from "../context/AuthContext";
 
 export default function OTPPage() {
   const [otp, setOtp] = useState(["", "", "", "", "", ""]);
-  const [userEmail, setUserEmail] = useState(""); // <-- added to store email
+  const [userEmail, setUserEmail] = useState("");
   const inputsRef = useRef([]);
   const navigate = useNavigate();
-  const { authenticated, setAuthenticated } = useAuth();
+  const { fetchAuth } = useAuth();
 
   useEffect(() => {
-    fetch("/api/get-email")
+    fetch("/api/get-email", { credentials: "include" })
       .then((res) => res.json())
       .then((data) => {
         if (data.email) {
@@ -67,18 +67,16 @@ export default function OTPPage() {
     try {
       const response = await fetch("/api/verify-otp", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        credentials: "include",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ otp: enteredOtp }),
       });
 
       const data = await response.json();
-      const email = data.email;
 
-      if (response.ok) {
+      if (response.ok && data.success) {
         alert("OTP verified successfully!");
-        setAuthenticated(true);
+        await fetchAuth(); // refresh role after OTP verification
         navigate("/dashboard");
       } else {
         alert(data.message || "Invalid OTP");
@@ -101,7 +99,7 @@ export default function OTPPage() {
           </p>
         )}
         <p className="text-gray-600 text-center mb-8">
-          Please enter the 6-digit code we sent to your phone.
+          Please enter the 6-digit code we sent to your email.
         </p>
         <div className="flex justify-between gap-2 mb-8" onPaste={handlePaste}>
           {otp.map((digit, index) => (

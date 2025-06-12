@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import { Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import Dashboard from "./pages/Dashboard";
@@ -13,25 +12,20 @@ import { SidebarProvider } from "./context/sidebarContext";
 import Otp from "./pages/Otp";
 import { AuthProvider } from "./context/AuthContext";
 import ProtectedRoutes from "./components/ProtectedRoutes";
+import NotFound from "./pages/NotFound";
+
 function App() {
-  // const [msg, setMsg] = useState("");
-
-  // useEffect(() => {
-  //   fetch("/api/")
-  //     .then((res) => res.json())
-  //     .then((data) => setMsg(data.message));
-  // }, []);
-
   return (
     <AuthProvider>
       <SidebarProvider>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/otp" element={<Otp />} />
+
           <Route
             path="/dashboard"
             element={
-              <ProtectedRoutes>
+              <ProtectedRoutes allowedRoles={["user", "admin"]}>
                 <Dashboard />
               </ProtectedRoutes>
             }
@@ -39,7 +33,7 @@ function App() {
           <Route
             path="/task"
             element={
-              <ProtectedRoutes>
+              <ProtectedRoutes allowedRoles={["user", "admin"]}>
                 <Task />
               </ProtectedRoutes>
             }
@@ -47,7 +41,7 @@ function App() {
           <Route
             path="/completed"
             element={
-              <ProtectedRoutes>
+              <ProtectedRoutes allowedRoles={["user", "admin"]}>
                 <Completed />
               </ProtectedRoutes>
             }
@@ -55,7 +49,7 @@ function App() {
           <Route
             path="/inprogress"
             element={
-              <ProtectedRoutes>
+              <ProtectedRoutes allowedRoles={["user", "admin"]}>
                 <InProgress />
               </ProtectedRoutes>
             }
@@ -63,7 +57,7 @@ function App() {
           <Route
             path="/todo"
             element={
-              <ProtectedRoutes>
+              <ProtectedRoutes allowedRoles={["user", "admin"]}>
                 <ToDo />
               </ProtectedRoutes>
             }
@@ -71,7 +65,7 @@ function App() {
           <Route
             path="/team"
             element={
-              <ProtectedRoutes>
+              <ProtectedRoutes allowedRoles={["admin"]}>
                 <Team />
               </ProtectedRoutes>
             }
@@ -79,7 +73,7 @@ function App() {
           <Route
             path="/trash"
             element={
-              <ProtectedRoutes>
+              <ProtectedRoutes allowedRoles={["admin"]}>
                 <Trash />
               </ProtectedRoutes>
             }
@@ -87,11 +81,12 @@ function App() {
           <Route
             path="/settings"
             element={
-              <ProtectedRoutes>
+              <ProtectedRoutes allowedRoles={["user", "admin"]}>
                 <Settings />
               </ProtectedRoutes>
             }
           />
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </SidebarProvider>
     </AuthProvider>

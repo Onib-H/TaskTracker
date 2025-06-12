@@ -35,7 +35,7 @@ const Filter = () => {
         name="priority"
         value={filters.priority}
         onChange={handleChange}
-        className="border rounded p-2 flex-1 min-w-[120px] bg-white/90 dark:bg-black/50 dark:text-white"
+        className="border rounded p-2 flex-1 min-w-[120px] bg-white/90 dark:bg-black/50 dark:text-white transition-all duration-300"
       >
         <option value="">All Priorities</option>
         <option value="High">High</option>
@@ -55,7 +55,7 @@ const Filter = () => {
         name="category"
         value={filters.category}
         onChange={handleChange}
-        className="border rounded p-2 flex-1 min-w-[120px] bg-white/90 dark:bg-black/50 dark:text-white"
+        className="border rounded p-2 flex-1 min-w-[120px] bg-white/90 dark:bg-black/50 dark:text-white transition-all duration-300"
       >
         <option value="">All Categories</option>
         <option value="Development">Development</option>

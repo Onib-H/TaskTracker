@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 
@@ -8,16 +8,14 @@ const Login = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { authenticated, setAuthenticated } = useAuth();
+  const { fetchAuth } = useAuth();
+  const { role } = useAuth();
 
-  if (authenticated === null) {
-    return null;
-  }
-
-  if (authenticated) {
-    navigate("/dashboard");
-    return null;
-  }
+  useEffect(() => {
+    if (role) {
+      navigate("/dashboard");
+    }
+  }, [role, navigate]);
 
   const toggleView = () => {
     setIsRegister(!isRegister);
@@ -34,12 +32,15 @@ const Login = () => {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ name, email, password }),
       });
+
       const data = await res.json();
       alert(data.message);
-      if (data.success) {
+
+      if (res.ok && data.success) {
         navigate("/otp");
       }
     } catch (err) {
+      console.error(err);
       alert("Error registering user");
     }
   };
@@ -52,13 +53,16 @@ const Login = () => {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
       });
+
       const data = await res.json();
       alert(data.message);
-      if (data.success) {
-        setAuthenticated(true);
+
+      if (res.ok && data.success) {
+        await fetchAuth(); // refresh context state after login
         navigate("/dashboard");
       }
     } catch (err) {
+      console.error(err);
       alert("Error logging in");
     }
   };
@@ -67,10 +71,11 @@ const Login = () => {
     <div className="relative w-[950px] h-[600px] bg-white rounded-4xl flex">
       <div className="w-1/2 h-full ">
         <div className="w-[200%] h-full flex transition-transform duration-700 ease-in-out">
+          {/* Login form */}
           <div
             className={`w-1/2 h-full flex flex-col items-center pl-5 py-18 space-y-3 transition duration-[0.7s] ${
               isRegister ? "opacity-0" : "opacity-100"
-            } `}
+            }`}
           >
             <div className="text-center w-full space-y-2">
               <h1 className="text-5xl font-bold">Login</h1>
@@ -81,7 +86,6 @@ const Login = () => {
             <div className="w-full p-8 space-y-4">
               <div className="w-full space-y-2">
                 <h1>Email</h1>
-
                 <input
                   type="text"
                   placeholder="email@gmail.com"
@@ -113,10 +117,11 @@ const Login = () => {
             </div>
           </div>
 
+          {/* Register form */}
           <div
             className={`w-1/2 h-full flex flex-col items-center pl-5 py-18 space-y-3 transition duration-[0.7s] ${
               isRegister ? "opacity-100" : "opacity-0"
-            } `}
+            }`}
           >
             <div className="text-center w-full space-y-2">
               <h1 className="text-5xl font-bold">Create Account</h1>
@@ -166,6 +171,7 @@ const Login = () => {
         </div>
       </div>
 
+      {/* Right side panel */}
       <div
         className={` w-1/2 h-full flex flex-col justify-center items-center text-center space-y-3 p-5 transition-all duration-700 ease-in-out bg-indigo-900/90 rounded-4xl ${
           isRegister

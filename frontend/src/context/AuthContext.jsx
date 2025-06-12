@@ -3,20 +3,50 @@ import { createContext, useContext, useState, useEffect } from "react";
 const AuthContext = createContext();
 
 export function AuthProvider({ children }) {
-  const [authenticated, setAuthenticated] = useState(null);
+  const [user, setUser] = useState(null);
+  const [role, setRole] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
+  const fetchAuth = () => {
+    setLoading(true);
     fetch("/api/check-auth", {
       method: "GET",
       credentials: "include",
-    }).then((res) => {
-      if (res.ok) setAuthenticated(true);
-      else setAuthenticated(false);
-    });
+    })
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error("Not authenticated");
+        }
+        return res.json();
+      })
+      .then((data) => {
+        setUser(data.user);
+        setRole(data.role);
+        setLoading(false);
+      })
+      .catch(() => {
+        setUser(null);
+        setRole(null);
+        setLoading(false);
+      });
+  };
+
+  useEffect(() => {
+    fetchAuth();
   }, []);
 
+  const logout = () => {
+    fetch("/api/logout", {
+      method: "POST",
+      credentials: "include",
+    }).finally(() => {
+      setUser(null);
+      setRole(null);
+    });
+  };
+
   return (
-    <AuthContext.Provider value={{ authenticated, setAuthenticated }}>
+    <AuthContext.Provider value={{ user, role, loading, fetchAuth, logout }}>
       {children}
     </AuthContext.Provider>
   );
