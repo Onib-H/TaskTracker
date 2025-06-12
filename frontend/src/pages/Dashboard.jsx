@@ -3,6 +3,8 @@ import Card from "../components/Card";
 import Header from "../components/Header";
 import Sidebar from "../components/Sidebar";
 import { useSidebar } from "../context/sidebarContext";
+import { useAuth } from "../context/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 const statusColors = {
   Available: "text-yellow-400",
@@ -27,6 +29,14 @@ const Dashboard = () => {
 
   // Store counts for all statuses
   const [taskCounts, setTaskCounts] = useState({});
+  const { user, loading } = useAuth();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!user && !loading) {
+      navigate("/");
+    }
+  }, [user, navigate, loading]);
 
   useEffect(() => {
     const fetchTotalTask = async () => {
@@ -39,8 +49,15 @@ const Dashboard = () => {
       }
     };
 
-    fetchTotalTask();
+    if (user) {
+      // only fetch tasks if user is authenticated
+      fetchTotalTask();
+    }
   }, []);
+
+  if (loading) {
+    return <div>Loading...</div>; // show loading while checking session
+  }
 
   const taskCountsArray = Object.entries(taskCounts);
 

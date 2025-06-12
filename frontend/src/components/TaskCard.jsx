@@ -1,9 +1,9 @@
 import React from "react";
 
 const priorityColors = {
-  high: "bg-red-500 text-white",
-  medium: "bg-yellow-400 text-black",
-  low: "bg-green-500 text-white",
+  high: "bg-red-400 dark:bg-red-500 text-white",
+  medium: "bg-yellow-200 dark:bg-yellow-400 text-black",
+  low: "bg-green-400 dark:bg-green-500 text-white",
 };
 
 const statusColors = {
@@ -19,67 +19,63 @@ const truncateText = (text, maxLength = 150) => {
   return text.length > maxLength ? text.slice(0, maxLength) + "..." : text;
 };
 
-const TaskCard = ({
-  priority = "medium",
-  title,
-  createdAt,
-  dueDate,
-  description,
-  category,
-  status,
-}) => {
+const TaskCard = ({ tasks }) => {
   return (
-    <div className="w-full max-w-md h-[350px] bg-white/90 dark:bg-gray-900 dark:text-white rounded-lg shadow-lg p-6 flex flex-col justify-between transition-all duration-300">
-      {/* Header: Priority and menu */}
-      <div className="flex justify-between items-center mb-4">
-        <div className="flex items-center gap-3">
-          <i className="fa-solid fa-bars text-gray-600 dark:text-gray-300"></i>
-          <span
-            className={`uppercase text-sm font-semibold px-4 py-1 rounded-full ${
-              priorityColors[priority.toLowerCase()] || priorityColors.medium
-            }`}
-          >
-            {priority} priority
-          </span>
-        </div>
-        <i className="fas fa-ellipsis text-gray-600 dark:text-gray-300 cursor-pointer"></i>
-      </div>
-
-      {/* Title */}
-      <h2 className="text-2xl font-bold mb-3 truncate">{title}</h2>
-
-      {/* Status and CreatedAt grouped */}
-      <div className="flex items-center gap-4 mb-4">
-        <span
-          className={`uppercase text-sm font-semibold px-3 py-1 rounded-full ${
-            statusColors[status] || "bg-gray-300 text-black"
-          }`}
+    <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+      {tasks.map((tasks) => (
+        <div
+          key={tasks.id}
+          className="w-full max-w-md h-[350px] bg-white/90 dark:bg-gray-900 dark:text-white rounded-lg shadow-lg p-6 flex flex-col justify-between transition-all duration-300"
         >
-          {status}
-        </span>
-        <p className="text-sm text-gray-500 dark:text-gray-400">
-          Created on: {createdAt}
-        </p>
-      </div>
+          <div className="flex justify-between items-center mb-4">
+            <div className="flex items-center gap-3">
+              <i className="fa-solid fa-bars text-gray-600 dark:text-gray-300"></i>
+              <span
+                className={`uppercase text-sm font-semibold px-4 py-1 rounded-full ${
+                  priorityColors[tasks.priority.toLowerCase()] ||
+                  priorityColors.medium
+                }`}
+              >
+                {tasks.priority} priority
+              </span>
+            </div>
+            <i className="fas fa-ellipsis text-gray-600 dark:text-gray-300 cursor-pointer"></i>
+          </div>
 
-      <p
-        className="flex-1 text-gray-700 dark:text-gray-300 mb-6 text-ellipsis  "
-        title={description}
-      >
-        {truncateText(description)}
-      </p>
+          <h2 className="text-2xl font-bold mb-3 truncate">{tasks.title}</h2>
 
-      {/* Footer: Due date and category button */}
-      <div className="flex justify-between items-center">
-        <div className="flex items-center gap-3 text-gray-600 dark:text-gray-400">
-          <i className="fa-regular fa-calendar-days"></i>
-          <span>{dueDate}</span>
+          <div className="flex items-center gap-4 mb-4">
+            <span
+              className={`uppercase text-sm font-semibold px-3 py-1 rounded-full ${
+                statusColors[tasks.status] || "bg-gray-300 text-black"
+              }`}
+            >
+              {tasks.status}
+            </span>
+            <p className="text-sm text-gray-500 dark:text-gray-400">
+              Created on: {tasks.created_at}
+            </p>
+          </div>
+
+          <p
+            className="flex-1 text-gray-700 dark:text-gray-300 mb-6 text-ellipsis  "
+            title={tasks.description}
+          >
+            {truncateText(tasks.description)}
+          </p>
+
+          <div className="flex justify-between items-center">
+            <div className="flex items-center gap-3 text-gray-600 dark:text-gray-400">
+              <i className="fa-regular fa-calendar-days"></i>
+              <span>{tasks.due_date}</span>
+            </div>
+
+            <button className="bg-indigo-600 text-white text-sm px-4 py-2 rounded hover:bg-indigo-700 transition-colors">
+              {tasks.category}
+            </button>
+          </div>
         </div>
-
-        <button className="bg-indigo-600 text-white text-sm px-4 py-2 rounded hover:bg-indigo-700 transition-colors">
-          {category}
-        </button>
-      </div>
+      ))}
     </div>
   );
 };

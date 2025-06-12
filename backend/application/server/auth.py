@@ -141,18 +141,16 @@ def verify_otp():
     
 @auth_bp.route('/check-auth', methods=['GET'])
 def check_auth():
-    user = session.get('user')
-    role = session.get('role')
-
+    user = session.get("user")
+    role = session.get("role")
+    
     if not user or not role:
-        return jsonify({"message": "User is not authenticated."}), 401
-
+        return jsonify({"message": "User is not authenticated"}), 401
+    
     return jsonify({
-        "message": f"{role.capitalize()} is authenticated.",
+        "message": f"{role.capitalize()} is authenticated", 
         "user": user,
-        "role": role
-    }), 200
-
+        "role":role}), 200
     
 
 @auth_bp.route('/resend-otp', methods=['POST'])

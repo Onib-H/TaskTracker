@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useAuth } from "../context/AuthContext"; // <-- add this
+import { useAuth } from "../context/AuthContext";
 
 const Header = () => {
   const [darkMode, setDarkMode] = useState(() => {

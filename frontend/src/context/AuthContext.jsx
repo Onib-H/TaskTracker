@@ -3,9 +3,10 @@ import { createContext, useContext, useState, useEffect } from "react";
 const AuthContext = createContext();
 
 export function AuthProvider({ children }) {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState(null); // full user info
   const [role, setRole] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [bootstrapped, setBootstrapped] = useState(false);
 
   const fetchAuth = () => {
     setLoading(true);
@@ -22,12 +23,14 @@ export function AuthProvider({ children }) {
       .then((data) => {
         setUser(data.user);
         setRole(data.role);
-        setLoading(false);
       })
       .catch(() => {
         setUser(null);
         setRole(null);
+      })
+      .finally(() => {
         setLoading(false);
+        setBootstrapped(true);
       });
   };
 
@@ -35,18 +38,10 @@ export function AuthProvider({ children }) {
     fetchAuth();
   }, []);
 
-  const logout = () => {
-    fetch("/api/logout", {
-      method: "POST",
-      credentials: "include",
-    }).finally(() => {
-      setUser(null);
-      setRole(null);
-    });
-  };
-
   return (
-    <AuthContext.Provider value={{ user, role, loading, fetchAuth, logout }}>
+    <AuthContext.Provider
+      value={{ user, role, loading, fetchAuth, bootstrapped }}
+    >
       {children}
     </AuthContext.Provider>
   );
